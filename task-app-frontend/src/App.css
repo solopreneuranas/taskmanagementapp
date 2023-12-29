@@ -1,0 +1,59 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins' !important;
+}
+
+.root {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  padding: 0;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
+  background-color: rgba(0, 0, 0, 0.464) !important;
+}
+
+.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+.css-1mbunh-MuiPaper-root {
+  box-shadow: none !important;
+  padding: 2% !important;
+  border-radius: 25px !important;
+  border-bottom: 0px !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+  background-color: #53569a !important
+}
+
+.css-1ex1afd-MuiTableCell-root {
+  padding: 27px 22px !important;
+}
+
+.css-2ulfj5-MuiTypography-root {
+  font-weight: 600 !important;
+  font-family: 'Poppins' !important;
+}
