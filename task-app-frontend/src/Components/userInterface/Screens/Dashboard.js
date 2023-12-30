@@ -51,7 +51,6 @@ export default function Dashboard(props) {
     const matches_md = useMediaQuery(theme.breakpoints.down('md'));
     const matches_sm = useMediaQuery(theme.breakpoints.down('sm'));
     const classes = useStylesTextField()
-    const [assignedTaskItems, setAssignedTaskItems] = useState('')
 
     const checkUser = () => {
         try {
@@ -266,7 +265,7 @@ export default function Dashboard(props) {
                                 <Route element={<CreateCategory />} path="/category" />
                                 <Route element={<TaskList />} path="/list" />
                                 <Route element={<CategoryList />} path="/category-list" />
-                                <Route element={<AssignedTasks assignedTaskItems={assignedTaskItems} setAssignedTaskItems={setAssignedTaskItems} />} path="/assigned-tasks" />
+                                <Route element={<AssignedTasks />} path="/assigned-tasks" />
                                 <Route element={<SharedTasks />} path="/shared-tasks" />
                             </Routes>
                         </Grid>

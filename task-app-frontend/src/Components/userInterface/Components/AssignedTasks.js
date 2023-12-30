@@ -44,7 +44,6 @@ export default function AssignedTasks(props) {
         var body = { 'sharedto': userId }
         var response = await postData('share/display_assigned_task_by_user', body)
         setAssignedTask(response.data)
-        props.setAssignedTaskItems(assignedTask.length)
     }
 
     useEffect(function () {
