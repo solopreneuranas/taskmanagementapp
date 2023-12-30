@@ -23,6 +23,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
     roundedTextField: {
@@ -35,7 +37,10 @@ const useStyles = makeStyles((theme) => ({
 export default function CreateTask(props) {
 
     var user = JSON.parse(localStorage.getItem("User"))
-    const classes = useStyles();
+    const classes = useStyles()
+    const theme = useTheme();
+    const matches_md = useMediaQuery(theme.breakpoints.down('md'));
+    const matches_sm = useMediaQuery(theme.breakpoints.down('sm'));
     const [userId, setUserId] = useState(user[0]._id)
     const [taskName, setTaskName] = useState('')
     const [description, setDescription] = useState('')
@@ -145,7 +150,7 @@ export default function CreateTask(props) {
     return (
         <div style={{ padding: '2%' }}>
             <Grid container spacing={1} style={{ display: 'flex', alignItems: 'center' }}>
-                <Grid item md={7} style={{ background: 'white', borderRadius: 30, width: '100%', padding: '3%' }}>
+                <Grid item md={7} style={{ background: 'white', borderRadius: matches_md ? 20 : 30, width: '100%', padding: matches_md ? '6%' : '3%' }}>
                     <Grid item md={12}>
                         <h2 style={{ margin: 0, fontWeight: 600, fontSize: 23 }}>Create Task</h2><br />
                     </Grid>
@@ -162,7 +167,7 @@ export default function CreateTask(props) {
                     </Grid>
                     <Grid item md={12} style={{ marginTop: '3%' }}>
                         <Grid container spacing={1}>
-                            <Grid item md={6}>
+                            <Grid item xs={6}>
                                 <FormControl fullWidth className={classes.roundedTextField}>
                                     <InputLabel id="demo-simple-select-label">Category</InputLabel>
                                     <Select
@@ -173,7 +178,7 @@ export default function CreateTask(props) {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item md={6}>
+                            <Grid item xs={6}>
                                 <TextField
                                     className={classes.roundedTextField}
                                     fullWidth

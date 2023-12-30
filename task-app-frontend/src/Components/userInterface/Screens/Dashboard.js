@@ -30,6 +30,10 @@ import CategoryList from '../Components/CategoryList';
 import SideDrawer from '../Components/SideDrawer';
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 import AssignedTasks from '../Components/AssignedTasks';
+import ShareIcon from '@mui/icons-material/Share';
+import SharedTasks from '../Components/SharedTasks';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const useStylesTextField = makeStyles((theme) => ({
     roundedTextField: {
@@ -39,15 +43,31 @@ const useStylesTextField = makeStyles((theme) => ({
     },
 }))
 
-export default function Dashboard() {
+export default function Dashboard(props) {
 
     var user = JSON.parse(localStorage.getItem("User"))
     var navigate = useNavigate()
+    const theme = useTheme();
+    const matches_md = useMediaQuery(theme.breakpoints.down('md'));
+    const matches_sm = useMediaQuery(theme.breakpoints.down('sm'));
     const classes = useStylesTextField()
-    const [expanded, setExpanded] = useState('');
-    const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
-    };
+    const [assignedTaskItems, setAssignedTaskItems] = useState('')
+
+    const checkUser = () => {
+        try {
+            var userData = JSON.parse(localStorage.getItem('User'))
+            if (userData == null) {
+                return false
+            }
+            else {
+                return userData
+            }
+        }
+        catch (e) {
+            return false
+        }
+    }
+
 
     const [selectedItemIndex, setSelectedItemIndex] = useState('')
     const [anchorEl, setAnchorEl] = useState(null)
@@ -90,17 +110,18 @@ export default function Dashboard() {
             link: '/dashboard/assigned-tasks'
         },
         {
-            icon: <Logout />,
-            title: 'Logout'
+            icon: <ShareIcon />,
+            title: 'Shared Tasks',
+            link: '/dashboard/shared-tasks'
         }
     ]
 
     return (
-        <div className='root' style={{ height: '100vh' }}>
-            <Grid container spacing={1} style={{ width: '100%', margin: 0, height: '100vh' }}>
+        <div className='root' style={{ height: '100%' }}>
+            <Grid container spacing={1} style={{ width: '100%', margin: 0, height: '100%' }}>
                 <Grid item xs={2}
                     style={{
-                        padding: '3% 2%',
+                        padding: '3% 1%',
                         color: 'black',
                         height: '100vh',
                         background: 'white',
@@ -110,10 +131,13 @@ export default function Dashboard() {
                 >
                     <Grid style={{ background: '#53569a', color: 'white', borderRadius: '10px', display: "flex", justifyContent: "left", alignItems: 'center', padding: '3%' }}>
                         <img src='https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1373' style={{ width: 50, height: 50, borderRadius: '50%', marginRight: '6%' }} />
-                        <div>
-                            <div style={{ fontSize: '16px', fontWeight: '500', padding: 0, margin: 0 }}>{user[0]?.name}</div>
-                            <div style={{ fontSize: '13px', fontWeight: '500', opacity: '70%', padding: 0, margin: 0 }}>{user[0]?.email}</div>
-                        </div>
+                        {
+                            matches_md ? <></> : <>
+                                <div>
+                                    <div style={{ fontSize: '16px', fontWeight: '500', padding: 0, margin: 0 }}>{user[0]?.name}</div>
+                                    <div style={{ fontSize: '13px', fontWeight: '500', opacity: '70%', padding: 0, margin: 0 }}>{user[0]?.email}</div>
+                                </div></>
+                        }
                     </Grid>
 
                     <Grid style={{ marginTop: '20%' }}>
@@ -125,35 +149,42 @@ export default function Dashboard() {
                                 };
 
                                 return (
-                                    <ListItemButton
-                                        key={i}  // Added key prop for each ListItemButton
-                                        onClick={() => handleListItem(i)}
-                                        style={{
-                                            margin: '1% 0',
-                                            color: selectedItemIndex === i ? 'white' : 'black',
-                                            backgroundColor: selectedItemIndex === i ? '#53569a' : 'transparent',
-                                            borderRadius: selectedItemIndex === i ? '4px' : '0',
-                                        }}
-                                    >
-                                        <ListItemIcon style={{ color: selectedItemIndex === i ? 'white' : '#362a47', opacity: '80%', fontSize: '15px', opacity: selectedItemIndex === i ? '100%' : '75%' }}>
-                                            {item.icon}
-                                        </ListItemIcon>
-                                        <p style={{ opacity: '75%', fontSize: '15px', opacity: selectedItemIndex === i ? '100%' : '75%' }}>{item.title}</p>
-                                    </ListItemButton>
+                                    <div>
+                                        <ListItemButton
+                                            key={i}
+                                            onClick={() => handleListItem(i)}
+                                            style={{
+                                                margin: '1% 0',
+                                                color: selectedItemIndex === i ? 'white' : 'black',
+                                                backgroundColor: selectedItemIndex === i ? '#53569a' : 'transparent',
+                                                borderRadius: selectedItemIndex === i ? '4px' : '0',
+                                            }}
+                                        >
+                                            <ListItemIcon style={{ color: selectedItemIndex === i ? 'white' : '#362a47', opacity: '80%', fontSize: '15px', opacity: selectedItemIndex === i ? '100%' : '75%' }}>
+                                                {item.icon}
+                                            </ListItemIcon>
+                                            {
+                                                matches_md ?
+                                                    <></>
+                                                    :
+                                                    <><p style={{ margin: 0, opacity: '75%', fontSize: '15px', opacity: selectedItemIndex === i ? '100%' : '75%' }}>{item.title}</p>
+                                                    </>
+                                            }
+                                        </ListItemButton>
+                                    </div>
                                 );
                             })}
                         </List>
                     </Grid>
                 </Grid>
 
-                <Grid item xs={10} style={{ padding: '2% 3%', height: '100vh', background: '#edf0fa' }}>
+                <Grid item xs={10} style={{ padding: '2% 3% 5%', height: '100%', background: '#edf0fa' }}>
                     <Grid container spacing={2} style={{ background: 'transparent', zIndex: 99 }}>
-                        <Grid item md={10}>
-                            {/* <TextField variant="outlined" fullWidth className={classes.roundedTextField} label="Search" /> */}
-                            <h3 style={{ fontWeight: '600', fontSize: '25px', textAlign: 'left', marginLeft: '3%' }}>Hi, Welcome back {user[0]?.name} 👋</h3>
+                        <Grid item xs={matches_md ? 8 : 10}>
+                            <h3 style={{ fontWeight: '600', fontSize: matches_md ? 20 : 25, textAlign: 'left', marginLeft: '3%' }}>Hi, Welcome back {user[0]?.name} 👋</h3>
                         </Grid>
-                        <Grid item md={2} style={{ display: "flex", justifyContent: "center", alignItems: 'center' }}>
-                            <Badge badgeContent={4} color="error" style={{ marginRight: '10%' }}>
+                        <Grid item xs={matches_md ? 4 : 2} style={{ display: "flex", justifyContent: "center", alignItems: 'center' }}>
+                            <Badge showZero badgeContent={assignedTaskItems} color="error" style={{ marginRight: matches_md ? '20%' : '10%' }}>
                                 <NotificationsIcon onClick={() => navigate('/dashboard/assigned-tasks')} color="action" style={{ cursor: 'pointer', width: 30, height: 30 }} />
                             </Badge>
                             <Menu
@@ -223,7 +254,7 @@ export default function Dashboard() {
 
                     <Grid container spacing={1}
                         style={{
-                            height: '100%',
+                            height: '100vh',
                             width: '100%',
                             marginTop: '4%'
                         }} >
@@ -231,11 +262,12 @@ export default function Dashboard() {
                             height: '100%', width: '100%'
                         }}>
                             <Routes>
-                                <Route element={<CreateTask />} path="/" />
+                                <Route element={<CreateTask />} path='/' />
                                 <Route element={<CreateCategory />} path="/category" />
                                 <Route element={<TaskList />} path="/list" />
                                 <Route element={<CategoryList />} path="/category-list" />
-                                <Route element={<AssignedTasks />} path="/assigned-tasks" />
+                                <Route element={<AssignedTasks assignedTaskItems={assignedTaskItems} setAssignedTaskItems={setAssignedTaskItems} />} path="/assigned-tasks" />
+                                <Route element={<SharedTasks />} path="/shared-tasks" />
                             </Routes>
                         </Grid>
                     </Grid>

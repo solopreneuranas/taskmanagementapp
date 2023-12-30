@@ -18,6 +18,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import EmptyPage from './EmptyPage';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const useStyles = makeStyles((theme) => ({
     roundedTextField: {
@@ -27,88 +31,96 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function AssignedTasks(props) {
+export default function SharedTasks() {
 
     var user = JSON.parse(localStorage.getItem("User"))
     const [userId, setUserId] = useState(user[0]._id)
     const classes = useStyles();
     var navigate = useNavigate()
+    const [taskName, setTaskName] = useState('')
+    const [users, setUsers] = useState([])
     const [open, setOpen] = useState(false)
-    const [taskStatus, setTaskStatus] = useState('')
-    const [getErrors, setErrors] = useState({})
-    const [assignedTask, setAssignedTask] = useState([])
-    const [assignedTaskId, setAssignedTaskId] = useState('')
+    const [sharedTask, setSharedTask] = useState([])
+    const [sharedTaskId, setSharedTaskId] = useState('')
+    const [sharedTo, setSharedTo] = useState('')
 
-    var assignedTaskLength = assignedTask.length
+    const fetchSharedTask = async () => {
+        var body = { 'sharedby': user[0].name }
+        var response = await postData('share/display_shared_task_by_user', body)
+        setSharedTask(response.data)
 
-    const fetchAssignedTask = async () => {
-        var body = { 'sharedto': userId }
-        var response = await postData('share/display_assigned_task_by_user', body)
-        setAssignedTask(response.data)
-        props.setAssignedTaskItems (assignedTaskLength)
+    }
+
+    const fetchUsers = async () => {
+        var response = await getData('user/display_all_user')
+        setUsers(response.data)
     }
 
     useEffect(function () {
-        fetchAssignedTask()
+        fetchSharedTask()
+        fetchUsers()
     }, [])
-
-    const handleError = (error, label) => {
-        setErrors((prev) => ({ ...prev, [label]: error }))
-    }
-
-    const validation = () => {
-        var error = false
-        if (taskStatus.length === 0) {
-            error = true
-            handleError('Please enter Task status', 'taskStatus')
-        }
-        return error
-    }
 
     const handleOpen = (rowData) => {
         setOpen(true)
-        setAssignedTaskId(rowData._id)
-        setTaskStatus(rowData.status)
+        setTaskName(rowData.taskname)
+        setSharedTaskId(rowData._id)
     }
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleUpdateTaskSatus = () => {
-        var error = validation()
-        if (error === false) {
-            Swal.fire({
-                title: 'Do you want to update the Task status?',
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'Update',
-                denyButtonText: `Don't update`,
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    var body = { _id: assignedTaskId, status: taskStatus }
-                    var response = await postData('share/update_task_status', body)
-                    fetchAssignedTask()
-                    Swal.fire('Task status Updated!', '', 'success')
-                } else if (result.isDenied) {
-                    Swal.fire('Task status not updated', '', 'info')
-                }
-            })
-        }
+    const handleUpdateSharedTask = () => {
+        Swal.fire({
+            title: "Do you want to update the Taks's user?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            denyButtonText: `Don't update`,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                var body = { '_id': sharedTaskId, 'sharedto': sharedTo }
+                var response = await postData('share/update_shared_task', body)
+                fetchSharedTask()
+                Swal.fire('Shared Task Updated!', '', 'success')
+            } else if (result.isDenied) {
+                Swal.fire('Shared Task not updated', '', 'info')
+            }
+        })
     }
 
-    const EditTaskStatusDialog = () => {
+    const handleDelete = (rowData) => {
+        Swal.fire({
+            title: 'Do you want to delete the Shared Task?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'delete',
+            denyButtonText: `Don't delete`,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                var body = { '_id': rowData._id }
+                var response = await postData('share/delete_shared_task', body)
+                fetchSharedTask()
+                Swal.fire('Task Deleted!', '', 'success')
+            } else if (result.isDenied) {
+                Swal.fire('Task not Deleted', '', 'info')
+            }
+        })
+    }
+
+    const EditSharedTaskDialog = () => {
         return (
             <div>
                 <Dialog fullWidth open={open}
                     onClose={handleClose}>
                     <DialogContent>
                         <DialogContentText>
-                            {EditTaskStatus()}
+                            {EditSharedTask()}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleUpdateTaskSatus} variant='contained' style={{ width: 100, background: '#53569A', padding: '1.5% 9%', margin: '0 1%', boxShadow: 'none' }}>
+                        <Button onClick={handleUpdateSharedTask} variant='contained' style={{ width: 100, background: '#53569A', padding: '1.5% 9%', margin: '0 1%', boxShadow: 'none' }}>
                             Update
                         </Button>
                         <Button onClick={handleClose} variant='outlined' style={{ width: 100, background: 'white', padding: '1.5% 9%', margin: '0 1%', boxShadow: 'none', border: '1px solid #53569A', color: '#53569A' }}>
@@ -120,21 +132,41 @@ export default function AssignedTasks(props) {
         );
     }
 
-    const EditTaskStatus = () => {
+    const allUsers = () => {
+        return (
+            users.map((item) => {
+                return (
+                    <MenuItem value={item._id}>{item.name}</MenuItem>
+                )
+            })
+        )
+    }
+
+    const handleShareUser = (event) => {
+        setSharedTo(event.target.value)
+    }
+
+    const EditSharedTask = () => {
         return (
             <div>
                 <Grid container spacing={1} style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                     <Grid item md={12} style={{ background: 'white', borderRadius: 30, width: '100%', padding: '4%' }}>
                         <Grid item md={12}>
-                            <h2 style={{ margin: 0, fontWeight: 600, fontSize: 23, color: 'black', opacity: '100%' }}>Edit Satus : <font style={{ color: '#53569a' }}>Completed/Pending</font> </h2><br />
+                            <h2 style={{ margin: 0, fontWeight: 600, fontSize: 23, color: 'black', opacity: '100%' }}>Edit Shared Task :<font style={{ color: '#53569a' }}> {taskName} </font> </h2><br />
                         </Grid>
                         <Grid item md={12}>
-                            <TextField
-                                value={taskStatus}
-                                onFocus={() => handleError('', 'taskStatus')}
-                                error={getErrors.taskStatus}
-                                helperText={getErrors.taskStatus}
-                                onChange={(e) => setTaskStatus(e.target.value)} label="Task status" variant="outlined" fullWidth className={classes.roundedTextField} />
+                            <div style={{ marginTop: '4%' }}>
+                                <FormControl fullWidth className={classes.roundedTextField}>
+                                    <InputLabel id="demo-simple-select-label">Users</InputLabel>
+                                    <Select
+                                        value={sharedTo}
+                                        label="Users"
+                                        onChange={handleShareUser}
+                                    >
+                                        {allUsers()}
+                                    </Select>
+                                </FormControl>
+                            </div>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -142,15 +174,15 @@ export default function AssignedTasks(props) {
         )
     }
 
-    const displayAssignedTasks = () => {
+    const displaySharedTasks = () => {
         var i = 0
         return (
             <div>
                 {
-                    assignedTask.length == 0 ?
+                    sharedTask.length == 0 ?
                         <>
                             <div>
-                                <EmptyPage title="You haven't assigned any Task by any user..." />
+                                <EmptyPage title="You haven't shared any Task to any user..." />
                             </div>
                         </>
                         :
@@ -158,11 +190,11 @@ export default function AssignedTasks(props) {
                             < MaterialTable
                                 style={{ marginTop: '2%', marginLeft: '1%' }
                                 }
-                                title="Assigned Tasks"
+                                title="Shared Tasks"
                                 columns={
                                     [
-                                        { title: 'Assigned by', field: 'sharedby' },
-                                        { title: 'Task Name', field: 'taskname' },
+                                        { title: 'Shared To', field: 'sharedto' },
+                                        { title: 'Task Name', render: (rowData) => (<div style={{ width: 200 }}>{rowData.taskname}</div>) },
                                         { title: 'Category', field: 'category' },
                                         { title: 'Description', field: 'description' },
                                         {
@@ -184,14 +216,19 @@ export default function AssignedTasks(props) {
                                             ),
                                         },
                                     ]}
-                                data={assignedTask}
+                                data={sharedTask}
 
                                 actions={
                                     [
                                         {
                                             icon: EditIcon,
-                                            tooltip: 'Edit Tast',
+                                            tooltip: 'Edit Shared Tast',
                                             onClick: (event, rowData) => handleOpen(rowData)
+                                        },
+                                        {
+                                            icon: DeleteIcon,
+                                            tooltip: 'Delete Shared Tast',
+                                            onClick: (event, rowData) => handleDelete(rowData)
                                         }
 
                                     ]}
@@ -205,7 +242,7 @@ export default function AssignedTasks(props) {
 
     return (
         <div>
-            {EditTaskStatusDialog()}
+            {EditSharedTaskDialog()}
             <Grid container spacing={3}>
                 <Grid item xs={12}
                     style={{
@@ -213,7 +250,7 @@ export default function AssignedTasks(props) {
                         width: '100%'
                     }}
                 >
-                    {displayAssignedTasks()}
+                    {displaySharedTasks()}
                 </Grid>
             </Grid>
             <div>

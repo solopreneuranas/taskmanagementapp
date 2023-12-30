@@ -65,14 +65,9 @@ export default function SignIn() {
                 Swal.fire({
                     icon: 'success',
                     title: 'Login successful!',
-                    toast: true,
-                    confirmButtonText: 'Got To Dashboard',
-                    denyButtonText: `Don't save`
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate('/dashboard')
-                    }
+                    toast: true
                 })
+                navigate('/dashboard')
             }
             else {
                 Swal.fire({
@@ -93,7 +88,7 @@ export default function SignIn() {
     };
 
     const loginForm = {
-        width: '38%',
+        width: '50%',
         margin: 'auto',
         padding: '6% 3%',
         borderRadius: '15px',
@@ -105,9 +100,9 @@ export default function SignIn() {
 
 
     return (
-        <div className='root' style={{ background: 'red', height: '100vh' }}>
+        <div className='root' style={{ height: '100%' }}>
             <Grid container spacing={5} style={{ margin: 0 }}>
-                <Grid item md={3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 5%', background: 'white' }}>
+                <Grid item md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 5%', background: 'white' }}>
                     <Grid container spacing={3}>
                         <Grid item md={12}>
                             <img src='https://tryboosty.com/images/boosty-logo.svg' style={{ width: '150px' }} />
@@ -122,7 +117,7 @@ export default function SignIn() {
                     </Grid>
 
                 </Grid>
-                <Grid item md={9} style={adminFormGrid}>
+                <Grid item md={8} style={adminFormGrid}>
                     <Grid container spacing={3} style={loginForm}>
                         <Grid item md={12} style={{ padding: 0 }}>
                             <Typography style={{
@@ -165,9 +160,11 @@ export default function SignIn() {
                             </FormControl>
                             <p style={{ color: '#FF0000', fontSize: '12.3px', marginLeft: '15px', marginTop: '0' }}>{getErrors.password}</p>
                         </Grid>
-                        <Grid item md={8} style={{ padding: 0, marginTop: '3%' }}>
-                            <Checkbox {...label} defaultChecked style={{ paddingLeft: 0 }} />
-                            <font style={{ fontSize: '15px', opacity: '80%' }}>I accept the <font style={{ color: '#53569A' }}>terms and conditions.</font></font>
+                        <Grid item md={12} style={{ padding: 0, marginTop: '3%' }}>
+                            <div>
+                                <Checkbox {...label} defaultChecked style={{ paddingLeft: 0 }} />
+                                <font style={{ fontSize: '15px', opacity: '80%' }}>I accept the <font style={{ color: '#53569A' }}>terms and conditions.</font></font>
+                            </div>
                         </Grid>
                         <Grid item md={12} variant='contained' style={{ padding: 0, marginTop: '4%' }}>
                             <Button

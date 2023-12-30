@@ -32,6 +32,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ShareIcon from '@mui/icons-material/Share';
 import EmptyPage from './EmptyPage';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
     roundedTextField: {
@@ -45,7 +47,10 @@ export default function TaskList() {
 
     var user = JSON.parse(localStorage.getItem("User"))
     const [userId, setUserId] = useState(user[0]._id)
-    const classes = useStyles();
+    const classes = useStyles()
+    const theme = useTheme();
+    const matches_md = useMediaQuery(theme.breakpoints.down('md'));
+    const matches_sm = useMediaQuery(theme.breakpoints.down('sm'));
     var navigate = useNavigate()
     const [taskId, setTaskId] = useState('')
     const [taskList, setTaskList] = useState([])
@@ -213,7 +218,7 @@ export default function TaskList() {
             denyButtonText: `Don't share`,
         }).then(async (result) => {
             if (result.isConfirmed) {
-                var body = { 'sharedto': sharedTo, 'taskid': taskId, 'taskname': taskName, 'description': description, 'deadline': deadline, 'category': category, 'tags': tagsString, 'sharedby': sharedBy }
+                var body = { 'sharedto': sharedTo, 'taskid': taskId, 'taskname': taskName, 'description': description, 'deadline': deadline, 'category': category, 'tags': tagsString, 'sharedby': sharedBy, 'status': 'Pending' }
                 var response = await postData('share/share-task', body)
                 fetchTasks()
                 Swal.fire('Task shared successfully!', '', 'success')
@@ -412,14 +417,14 @@ export default function TaskList() {
         )
     }
 
-    const displayCategory = () => {
+    const displayTasks = () => {
         var i = 0
         return (
             <div>
                 {
                     taskList.length == 0 ?
                         <>
-                        <EmptyPage title="You haven't added any task..."/>
+                            <EmptyPage title="You haven't added any task..." />
                         </>
                         :
                         <>
@@ -487,7 +492,7 @@ export default function TaskList() {
                         width: '100%'
                     }}
                 >
-                    {displayCategory()}
+                    {displayTasks()}
                 </Grid>
             </Grid>
             <div>

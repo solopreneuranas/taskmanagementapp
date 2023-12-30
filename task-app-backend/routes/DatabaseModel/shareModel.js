@@ -34,6 +34,10 @@ var shareSchema = mongoose.Schema({
         type: Date,
         required: true
     },
+    status: {
+        type: String,
+        required: true
+    },
 })
 
 module.exports = mongoose.model("share", shareSchema)

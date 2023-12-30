@@ -2,13 +2,16 @@ var express = require('express');
 var router = express.Router();
 var upload = require('./multer')
 var Users = require('./DatabaseModel/userModel')
+var LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch')
 
 router.post('/create-account', function (req, res) {
     try {
         var user = new Users(req.body)
         user.save().then((saveData) => {
             if (user == saveData) {
-                res.json({ status: true, message: 'User account created successfully!' });
+                //localStorage.setItem('User', JSON.stringify([saveData]))
+                res.json({ status: true, message: 'User account created successfully!', data: [saveData] })
             }
             else {
                 res.json({ status: false, message: 'Database Error!' });
@@ -23,7 +26,7 @@ router.post('/create-account', function (req, res) {
 router.post('/login', async function (req, res) {
     await Users.find({ $and: [{ email: req.body.email }, { password: req.body.password }] }).then((result) => {
         if (result.length == 1) {
-            console.log (result)
+            console.log(result)
             res.json({ status: true, data: result })
         }
         else {

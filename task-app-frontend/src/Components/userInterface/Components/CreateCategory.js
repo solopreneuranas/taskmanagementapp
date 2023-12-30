@@ -8,6 +8,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Dialog from '@mui/material/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => ({
     roundedTextField: {
@@ -20,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 export default function CreateCategory() {
 
     var user = JSON.parse(localStorage.getItem("User"))
+    const theme = useTheme();
+    const matches_md = useMediaQuery(theme.breakpoints.down('md'));
+    const matches_sm = useMediaQuery(theme.breakpoints.down('sm'));
     const [userId, setUserId] = useState(user[0]._id)
     const classes = useStyles();
     const [description, setDescription] = useState('')
@@ -68,7 +73,7 @@ export default function CreateCategory() {
     return (
         <div style={{ padding: '2%'}}>
             <Grid container spacing={1} style={{ display: 'flex', alignItems: 'center' }}>
-                <Grid item md={7} style={{ background: 'white', borderRadius: 30, width: '100%', padding: '3%' }}>
+                <Grid item md={7} style={{ background: 'white', borderRadius: matches_md ? 20 : 30, width: '100%', padding: matches_md ? '6%' : '3%' }}>
                     <Grid item md={12}>
                         <h2 style={{ margin: 0, fontWeight: 600, fontSize: 23 }}>Create Category</h2><br />
                     </Grid>
