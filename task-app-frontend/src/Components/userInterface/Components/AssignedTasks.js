@@ -18,6 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import EmptyPage from './EmptyPage';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
     roundedTextField: {
@@ -39,13 +40,11 @@ export default function AssignedTasks(props) {
     const [assignedTask, setAssignedTask] = useState([])
     const [assignedTaskId, setAssignedTaskId] = useState('')
 
-    var assignedTaskLength = assignedTask.length
-
     const fetchAssignedTask = async () => {
         var body = { 'sharedto': userId }
         var response = await postData('share/display_assigned_task_by_user', body)
         setAssignedTask(response.data)
-        props.setAssignedTaskItems (assignedTaskLength)
+        props.setAssignedTaskItems(assignedTask.length)
     }
 
     useEffect(function () {
@@ -161,6 +160,10 @@ export default function AssignedTasks(props) {
                                 title="Assigned Tasks"
                                 columns={
                                     [
+                                        {
+                                            title: 'S no.',
+                                            render: (rowData) => rowData.tableData.id + 1
+                                        },
                                         { title: 'Assigned by', field: 'sharedby' },
                                         { title: 'Task Name', field: 'taskname' },
                                         { title: 'Category', field: 'category' },

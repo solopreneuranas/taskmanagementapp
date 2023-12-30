@@ -9,7 +9,8 @@ var taskSchema = mongoose.Schema({
         required: false
     },
     category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "categories",
         required: false
     },
     tags: {

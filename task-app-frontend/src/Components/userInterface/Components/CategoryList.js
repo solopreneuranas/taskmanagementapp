@@ -183,7 +183,10 @@ export default function CategoryList() {
                                 style={{ marginTop: '2%', marginLeft: '1%' }}
                                 title="Category List"
                                 columns={[
-                                    { title: 'S no.', render: (rowData) => <div>{i + 1}</div> },
+                                    {
+                                        title: 'S no.',
+                                        render: (rowData) => rowData.tableData.id + 1
+                                    },
                                     { title: 'Category Name', field: 'categoryname' },
                                     { title: 'Description', field: 'description' }
                                 ]}

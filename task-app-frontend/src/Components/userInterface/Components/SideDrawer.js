@@ -125,7 +125,7 @@ export default function SideDrawer(props) {
                 <h2 style={{ margin: 0, fontWeight: 600, fontSize: 25 }}>My Profile</h2>
                 <Grid item xs={12} style={{ marginTop: '8%' }}>
                     <center>
-                        <img className='profileImg' src='https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1373' style={{ width: 100, height: 100, borderRadius: '50%', cursor: 'pointer' }} />
+                        <img className='profileImg' src='/images/user-image.png' style={{ width: 100, height: 100, borderRadius: '50%', cursor: 'pointer' }} />
                         <h2 style={{ margin: 0, fontWeight: 600, fontSize: 20 }}>{props.name}</h2>
                         <p style={{ padding: 0, fontWeight: 600, color: '#53569a', fontSize: 14 }}>{props.email}</p>
                         <div style={{ marginTop: '10%', width: '100%' }}>
@@ -258,7 +258,7 @@ export default function SideDrawer(props) {
 
     return (
         <div>
-            <img className='profileImg' src='https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1373' style={{ width: 40, height: 40, borderRadius: '50%', cursor: 'pointer' }} onClick={toggleDrawer('right', true)} />
+            <img className='profileImg' src='/images/user-image.png' style={{ width: 50, height: 50, borderRadius: '50%', cursor: 'pointer' }} onClick={toggleDrawer('right', true)} />
             <React.Fragment key='right' >
                 <Drawer
                     anchor='right'

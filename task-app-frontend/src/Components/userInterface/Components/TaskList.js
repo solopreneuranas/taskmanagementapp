@@ -432,9 +432,12 @@ export default function TaskList() {
                                 style={{ marginTop: '2%', marginLeft: '1%' }}
                                 title="Task List"
                                 columns={[
-                                    { title: 'S no.', render: (rowData) => <div>{i + 1}</div> },
+                                    {
+                                        title: 'S no.',
+                                        render: (rowData) => rowData.tableData.id + 1
+                                    },
                                     { title: 'Tast Name', field: 'taskname' },
-                                    { title: 'Category', field: 'categoryname' },
+                                    { title: 'Category', field: 'category' },
                                     {
                                         title: 'Deadline', render: (rowData) => (
                                             <div>

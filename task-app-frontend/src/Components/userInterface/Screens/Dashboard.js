@@ -130,7 +130,7 @@ export default function Dashboard(props) {
                     }}
                 >
                     <Grid style={{ background: '#53569a', color: 'white', borderRadius: '10px', display: "flex", justifyContent: "left", alignItems: 'center', padding: '3%' }}>
-                        <img src='https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=1373' style={{ width: 50, height: 50, borderRadius: '50%', marginRight: '6%' }} />
+                        <img src='/images/user-image.png' style={{ width: 50, height: 50, borderRadius: '50%', marginRight: '6%' }} />
                         {
                             matches_md ? <></> : <>
                                 <div>

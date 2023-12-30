@@ -54,4 +54,23 @@ router.post('/delete-task', async function (req, res) {
     })
 })
 
+router.get('/display_all_task_test', async function (req, res) {
+    await Tasks.aggregate([
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "categoryData"
+            }
+        }
+    ],
+        { $unwind: "$categoryData" }
+    ).then((result) => {
+        console.log("Result Category Data ==>", result[0].categoryData)
+    }).catch((e) => {
+        res.json({ msg: "Error" })
+    })
+})
+
 module.exports = router;

@@ -48,7 +48,6 @@ export default function SharedTasks() {
         var body = { 'sharedby': user[0].name }
         var response = await postData('share/display_shared_task_by_user', body)
         setSharedTask(response.data)
-
     }
 
     const fetchUsers = async () => {
@@ -65,6 +64,7 @@ export default function SharedTasks() {
         setOpen(true)
         setTaskName(rowData.taskname)
         setSharedTaskId(rowData._id)
+        setSharedTo(rowData.sharedto)
     }
 
     const handleClose = () => {
@@ -193,6 +193,10 @@ export default function SharedTasks() {
                                 title="Shared Tasks"
                                 columns={
                                     [
+                                        {
+                                            title: 'S no.',
+                                            render: (rowData) => rowData.tableData.id + 1
+                                        },
                                         { title: 'Shared To', field: 'sharedto' },
                                         { title: 'Task Name', render: (rowData) => (<div style={{ width: 200 }}>{rowData.taskname}</div>) },
                                         { title: 'Category', field: 'category' },
