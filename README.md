@@ -9,9 +9,12 @@ There are two folder inside taskmanagement folder :
 2. task-app-frontend
 
 Step: 3 -
-Open each folder in terminal and run the command - npm start
+Open task-app-frontend in terminal and run the command - npm i --force
 
 Step: 4 -
+Now open each folder in terminal and run the command - npm start
+
+Step: 5 -
 Wait until your both server (frontend and backend) starts
 
 ---- Now you can see a new tab in your browser (localhost:3000) ---
