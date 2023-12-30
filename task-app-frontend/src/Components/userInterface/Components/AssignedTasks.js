@@ -166,7 +166,6 @@ export default function AssignedTasks(props) {
                                         },
                                         { title: 'Assigned by', field: 'sharedby' },
                                         { title: 'Task Name', field: 'taskname' },
-                                        { title: 'Category', field: 'category' },
                                         { title: 'Description', field: 'description' },
                                         {
                                             title: 'Deadline', render: (rowData) => (

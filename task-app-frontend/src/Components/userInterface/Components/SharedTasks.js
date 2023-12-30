@@ -197,9 +197,8 @@ export default function SharedTasks() {
                                             title: 'S no.',
                                             render: (rowData) => rowData.tableData.id + 1
                                         },
-                                        { title: 'Shared To', field: 'sharedto' },
+                                        { title: 'Shared To', render: (rowData) => (rowData.sharedtoData[0].name) },
                                         { title: 'Task Name', render: (rowData) => (<div style={{ width: 200 }}>{rowData.taskname}</div>) },
-                                        { title: 'Category', field: 'category' },
                                         { title: 'Description', field: 'description' },
                                         {
                                             title: 'Deadline', render: (rowData) => (

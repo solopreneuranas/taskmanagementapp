@@ -437,7 +437,7 @@ export default function TaskList() {
                                         render: (rowData) => rowData.tableData.id + 1
                                     },
                                     { title: 'Tast Name', field: 'taskname' },
-                                    { title: 'Category', field: 'category' },
+                                     { title: 'Category', render: (rowData) => rowData.categoryData[0].categoryname },
                                     {
                                         title: 'Deadline', render: (rowData) => (
                                             <div>

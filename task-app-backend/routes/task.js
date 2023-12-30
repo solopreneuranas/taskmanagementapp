@@ -3,6 +3,9 @@ var router = express.Router();
 var upload = require('./multer')
 var Tasks = require('./DatabaseModel/taskModel')
 
+const { ObjectId } = require('mongodb');
+const { default: mongoose } = require('mongoose');
+
 router.post('/create-task', function (req, res) {
     try {
         var task = new Tasks(req.body)
@@ -29,10 +32,26 @@ router.get('/display_all_task', async function (req, res) {
 })
 
 router.post('/display_all_task_by_user', async function (req, res) {
-    await Tasks.find({ 'userid': req.body.userid }).then((result) => {
+    await Tasks.aggregate([
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category",
+                foreignField: "_id",
+                as: "categoryData"
+            }
+        },
+        {
+            $match: {
+                userid:new mongoose.Types.ObjectId(req.body.userid)
+            }
+        }
+    ],
+        { $unwind: "$categoryData" }
+    ).then((result) => {
         res.json({ status: true, data: result })
     }).catch((e) => {
-        res.json({ status: false })
+        res.json({ msg: "Error",error:e })
     })
 })
 
@@ -51,25 +70,6 @@ router.post('/delete-task', async function (req, res) {
     }).catch((e) => {
         res.json({ status: false, message: 'Database Error' })
         console.log(e)
-    })
-})
-
-router.get('/display_all_task_test', async function (req, res) {
-    await Tasks.aggregate([
-        {
-            $lookup: {
-                from: "categories",
-                localField: "category",
-                foreignField: "_id",
-                as: "categoryData"
-            }
-        }
-    ],
-        { $unwind: "$categoryData" }
-    ).then((result) => {
-        console.log("Result Category Data ==>", result[0].categoryData)
-    }).catch((e) => {
-        res.json({ msg: "Error" })
     })
 })
 

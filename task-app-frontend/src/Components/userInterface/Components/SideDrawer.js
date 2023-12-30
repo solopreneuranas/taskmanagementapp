@@ -167,7 +167,7 @@ export default function SideDrawer(props) {
                 {
                     taskList.length == 0 ?
                         <>
-                            <EmptyPage title="You haven' added any Task" />
+                            <EmptyPage title="You haven't added any Task" />
                         </>
                         :
                         <>
