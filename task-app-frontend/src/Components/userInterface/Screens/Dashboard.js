@@ -184,7 +184,7 @@ export default function Dashboard(props) {
                             <h3 style={{ fontWeight: '600', fontSize: matches_md ? 20 : 25, textAlign: 'left', marginLeft: '3%' }}>Hi, Welcome back {user[0]?.name} 👋</h3>
                         </Grid>
                         <Grid item xs={matches_md ? 4 : 2} style={{ display: "flex", justifyContent: "center", alignItems: 'center' }}>
-                            <Badge showZero badgeContent={assignedTaskItems} color="error" style={{ marginRight: matches_md ? '20%' : '10%' }}>
+                            <Badge showZero variant="dot" color="error" style={{ marginRight: matches_md ? '20%' : '10%' }}>
                                 <NotificationsIcon onClick={() => navigate('/dashboard/assigned-tasks')} color="action" style={{ cursor: 'pointer', width: 30, height: 30 }} />
                             </Badge>
                             <Menu
