@@ -135,7 +135,8 @@ export default function Dashboard(props) {
                                 <div>
                                     <div style={{ fontSize: '16px', fontWeight: '500', padding: 0, margin: 0 }}>{user[0]?.name}</div>
                                     <div style={{ fontSize: '11px', fontWeight: '500', opacity: '70%', padding: 0, margin: 0 }}>{user[0]?.email}</div>
-                                </div></>
+                                </div>
+                            </>
                         }
                     </Grid>
 

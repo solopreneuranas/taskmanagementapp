@@ -98,6 +98,12 @@ export default function SignIn() {
         boxShadow: 'rgba(159, 162, 191, 0.18) 0px 9px 16px, rgba(159, 162, 191, 0.32) 0px 0px',
     };
 
+    const handleEnterPress = (event) => {
+        if (event.key === 'Enter' || event.key === ',') {
+            handleLogin()
+        }
+    }
+
 
     return (
         <div className='root' style={{ height: '100%' }}>
@@ -130,6 +136,7 @@ export default function SignIn() {
                         </Grid>
                         <Grid item md={12} style={{ padding: 0 }}>
                             <TextField
+                                onKeyPress={handleEnterPress}
                                 error={getErrors.email}
                                 helperText={getErrors.email}
                                 onFocus={() => handleError('', 'email')}
@@ -139,6 +146,7 @@ export default function SignIn() {
                             <FormControl fullWidth variant="outlined" className={classes.roundedTextField}>
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
+                                    onKeyPress={handleEnterPress}
                                     error={getErrors.password}
                                     onFocus={() => handleError('', 'password')}
                                     onChange={(event) => setPassword(event.target.value)}

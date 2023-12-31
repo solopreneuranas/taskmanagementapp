@@ -84,7 +84,7 @@ export default function TaskList() {
 
     var currentUserId = userId
     var filteredUsers = users.filter((item, i) => {
-        if (currentUserId !== item._id){
+        if (currentUserId !== item._id) {
             return item
         }
     })
@@ -216,23 +216,22 @@ export default function TaskList() {
         })
     }
 
-    const handleShareTask = () => {
-        Swal.fire({
-            title: 'Do you want to share the Task?',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Share',
-            denyButtonText: `Don't share`,
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                var body = { 'sharedto': sharedTo, 'taskid': taskId, 'taskname': taskName, 'description': description, 'deadline': deadline, 'category': category, 'tags': tagsString, 'sharedby': sharedBy, 'status': 'Pending' }
-                var response = await postData('share/share-task', body)
-                fetchTasks()
-                Swal.fire('Task shared successfully!', '', 'success')
-            } else if (result.isDenied) {
-                Swal.fire('Task not shared', '', 'info')
-            }
-        })
+    const handleShareTask = async () => {
+        var body = { 'sharedto': sharedTo, 'taskid': taskId, 'taskname': taskName, 'description': description, 'deadline': deadline, 'category': category, 'tags': tagsString, 'sharedby': sharedBy, 'status': 'Pending' }
+        var response = await postData('share/share-task', body)
+        if (response.status === true) {
+            Swal.fire({
+                icon: 'success',
+                toast: true,
+                title: 'Task shared!'
+            })
+        }
+        else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Task not shared!'
+            })
+        }
     }
 
     const handleUpdateTask = () => {

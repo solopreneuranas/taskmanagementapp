@@ -73,25 +73,25 @@ export default function AssignedTasks(props) {
         setOpen(false);
     };
 
-    const handleUpdateTaskSatus = () => {
+    const handleUpdateTaskSatus = async () => {
         var error = validation()
         if (error === false) {
-            Swal.fire({
-                title: 'Do you want to update the Task status?',
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'Update',
-                denyButtonText: `Don't update`,
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    var body = { _id: assignedTaskId, status: taskStatus }
-                    var response = await postData('share/update_task_status', body)
-                    fetchAssignedTask()
-                    Swal.fire('Task status Updated!', '', 'success')
-                } else if (result.isDenied) {
-                    Swal.fire('Task status not updated', '', 'info')
-                }
-            })
+            var body = { _id: assignedTaskId, status: taskStatus }
+            var response = await postData('share/update_task_status', body)
+            if (response.status === true) {
+                fetchAssignedTask()
+                Swal.fire({
+                    icon: 'success',
+                    toast: true,
+                    title: 'Task status updated!'
+                })
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Task status not updated!'
+                })
+            }
         }
     }
 
