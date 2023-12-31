@@ -134,7 +134,7 @@ export default function Dashboard(props) {
                             matches_md ? <></> : <>
                                 <div>
                                     <div style={{ fontSize: '16px', fontWeight: '500', padding: 0, margin: 0 }}>{user[0]?.name}</div>
-                                    <div style={{ fontSize: '13px', fontWeight: '500', opacity: '70%', padding: 0, margin: 0 }}>{user[0]?.email}</div>
+                                    <div style={{ fontSize: '11px', fontWeight: '500', opacity: '70%', padding: 0, margin: 0 }}>{user[0]?.email}</div>
                                 </div></>
                         }
                     </Grid>
@@ -253,7 +253,7 @@ export default function Dashboard(props) {
 
                     <Grid container spacing={1}
                         style={{
-                            height: '100vh',
+                            height: '100%',
                             width: '100%',
                             marginTop: '4%'
                         }} >

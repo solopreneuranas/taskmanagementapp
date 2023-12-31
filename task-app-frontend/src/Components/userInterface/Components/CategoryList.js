@@ -48,10 +48,6 @@ export default function CategoryList() {
         fetchCategories()
     }, [])
 
-    useEffect(function () {
-        fetchCategories()
-    }, [])
-
     const handleError = (error, label) => {
         setErrors((prev) => ({ ...prev, [label]: error }))
     }

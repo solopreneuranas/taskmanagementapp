@@ -3,13 +3,10 @@ import { Grid, TextField, Button, Avatar } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { postData, getData } from '../../../Services/FetchNodeServices';
 import Swal from 'sweetalert2';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import Dialog from '@mui/material/Dialog';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import RecentCategories from './RecentCategories';
 
 const useStyles = makeStyles((theme) => ({
     roundedTextField: {
@@ -71,9 +68,9 @@ export default function CreateCategory() {
     }
 
     return (
-        <div style={{ padding: '2%'}}>
+        <div style={{ padding: '2%' }}>
             <Grid container spacing={1} style={{ display: 'flex', alignItems: 'center' }}>
-                <Grid item md={7} style={{ background: 'white', borderRadius: matches_md ? 20 : 30, width: '100%', padding: matches_md ? '6%' : '3%' }}>
+                <Grid item md={7} style={{ boxShadow: '0 5px 10px 5px #e9e9f3', background: 'white', borderRadius: matches_md ? 20 : 30, width: '100%', padding: matches_md ? '6%' : '3%' }}>
                     <Grid item md={12}>
                         <h2 style={{ margin: 0, fontWeight: 600, fontSize: 23 }}>Create Category</h2><br />
                     </Grid>
@@ -96,6 +93,11 @@ export default function CreateCategory() {
                             CANCEL
                         </Button>
                     </Grid>
+                </Grid>
+            </Grid>
+            <Grid container spacing={1} style={{ display: 'flex', alignItems: 'start' }}>
+                <Grid item md={4} style={{ marginTop: '3%' }}>
+                    <RecentCategories userid={userId} />
                 </Grid>
             </Grid>
         </div >

@@ -82,6 +82,13 @@ export default function TaskList() {
         setDatabaseCategory(response.data)
     }
 
+    var currentUserId = userId
+    var filteredUsers = users.filter((item, i) => {
+        if (currentUserId !== item._id){
+            return item
+        }
+    })
+
     const fetchUsers = async () => {
         var response = await getData('user/display_all_user')
         setUsers(response.data)
@@ -295,7 +302,7 @@ export default function TaskList() {
 
     const allUsers = () => {
         return (
-            users.map((item) => {
+            filteredUsers.map((item) => {
                 return (
                     <MenuItem value={item._id}>{item.name}</MenuItem>
                 )
@@ -437,7 +444,7 @@ export default function TaskList() {
                                         render: (rowData) => rowData.tableData.id + 1
                                     },
                                     { title: 'Tast Name', field: 'taskname' },
-                                     { title: 'Category', render: (rowData) => rowData.categoryData[0].categoryname },
+                                    { title: 'Category', render: (rowData) => rowData.categoryData[0].categoryname },
                                     {
                                         title: 'Deadline', render: (rowData) => (
                                             <div>

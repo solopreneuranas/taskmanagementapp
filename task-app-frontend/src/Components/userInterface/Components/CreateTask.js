@@ -25,6 +25,8 @@ import Select from '@mui/material/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import RecentAssignedTasks from './RecentAssignedTasks';
+import AppCalendar from './AppCalendar';
 
 const useStyles = makeStyles((theme) => ({
     roundedTextField: {
@@ -149,9 +151,9 @@ export default function CreateTask(props) {
 
     return (
         <div style={{ padding: '2%' }}>
-            <Grid container spacing={1} style={{ display: 'flex', alignItems: 'center' }}>
-                <Grid item md={7} style={{ background: 'white', borderRadius: matches_md ? 20 : 30, width: '100%', padding: matches_md ? '6%' : '3%' }}>
-                    <Grid item md={12}>
+            <Grid container spacing={3} style={{ display: 'flex', alignItems: 'start' }}>
+                <Grid item md={7} style={{ width: '100%', boxShadow: '0 5px 10px 5px #e9e9f3', background: 'white', borderRadius: matches_md ? 20 : 30, padding: matches_md ? '6%' : '3%', margin: 0 }}>
+                    <Grid item md={12} style={{ paddingTop: 24 }}>
                         <h2 style={{ margin: 0, fontWeight: 600, fontSize: 23 }}>Create Task</h2><br />
                     </Grid>
                     <Grid item md={12}>
@@ -222,14 +224,6 @@ export default function CreateTask(props) {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item md={6} style={{ marginTop: '1%' }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={['DatePicker']}>
-                                <DatePicker label="Deadline" onChange={handleDeadline} className={classes.roundedTextField} />
-                            </DemoContainer>
-                        </LocalizationProvider>
-                        <p style={{ color: '#FF0000', fontSize: '12.3px', marginLeft: '15px', marginTop: 0 }}>{getErrors.deadline}</p>
-                    </Grid>
                     <Grid item md={6} style={{ marginTop: '2%' }}>
                         <Button onClick={handleCreateTask} variant='contained' style={{ width: 100, background: '#53569A', padding: '3% 9%', margin: '5% 2% 0', boxShadow: 'none' }}>
                             ADD
@@ -239,9 +233,18 @@ export default function CreateTask(props) {
                         </Button>
                     </Grid>
                 </Grid>
-                <Grid item md={5} style={{ display: 'flex', justifyContent: 'center' }}>
-                    <img src='/images/add-task.png' style={{ width: '80%' }} />
+                <Grid item md={5} style={{ display: 'flex', justifyContent: 'center', alignItems: 'start', height: '100%', flexDirection: 'column' }}>
+                    <AppCalendar deadline={deadline} setDeadline={setDeadline} />
+                    <p style={{ color: '#FF0000', fontSize: '12.3px', marginLeft: '15px', marginTop: 0 }}>{getErrors.deadline}</p>
                 </Grid>
+            </Grid>
+            <Grid container spacing={1} style={{ display: 'flex', alignItems: 'start', marginTop: '3%' }}>
+                <Grid item md={6}>
+                    <RecentAssignedTasks userid={userId} />
+                </Grid>
+                {/* <Grid item md={6} style={{display: 'flex', justifyContent: 'center'}}>
+                    <img src='/images/add-task.png' style={{ width: '50%' }} />
+                </Grid> */}
             </Grid>
         </div >
     );

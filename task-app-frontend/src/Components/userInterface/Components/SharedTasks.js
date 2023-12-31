@@ -55,6 +55,13 @@ export default function SharedTasks() {
         setUsers(response.data)
     }
 
+    var currentUserId = userId
+    var filteredUsers = users.filter((item, i) => {
+        if (currentUserId !== item._id){
+            return item
+        }
+    })
+
     useEffect(function () {
         fetchSharedTask()
         fetchUsers()
@@ -134,7 +141,7 @@ export default function SharedTasks() {
 
     const allUsers = () => {
         return (
-            users.map((item) => {
+            filteredUsers.map((item) => {
                 return (
                     <MenuItem value={item._id}>{item.name}</MenuItem>
                 )
