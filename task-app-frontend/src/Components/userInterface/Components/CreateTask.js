@@ -242,9 +242,6 @@ export default function CreateTask(props) {
                 <Grid item md={6}>
                     <RecentAssignedTasks userid={userId} />
                 </Grid>
-                {/* <Grid item md={6} style={{display: 'flex', justifyContent: 'center'}}>
-                    <img src='/images/add-task.png' style={{ width: '50%' }} />
-                </Grid> */}
             </Grid>
         </div >
     );

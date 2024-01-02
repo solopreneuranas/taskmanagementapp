@@ -34,6 +34,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import SharedTasks from '../Components/SharedTasks';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import AutoDeleteIcon from '@mui/icons-material/AutoDelete';
+import TrashList from '../Components/TrashList';
 
 const useStylesTextField = makeStyles((theme) => ({
     roundedTextField: {
@@ -112,6 +114,11 @@ export default function Dashboard(props) {
             icon: <ShareIcon />,
             title: 'Shared Tasks',
             link: '/dashboard/shared-tasks'
+        },
+        {
+            icon: <AutoDeleteIcon />,
+            title: 'Trash',
+            link: '/dashboard/deleted-tasks'
         }
     ]
 
@@ -268,6 +275,7 @@ export default function Dashboard(props) {
                                 <Route element={<CategoryList />} path="/category-list" />
                                 <Route element={<AssignedTasks />} path="/assigned-tasks" />
                                 <Route element={<SharedTasks />} path="/shared-tasks" />
+                                <Route element={<TrashList />} path="/deleted-tasks" />
                             </Routes>
                         </Grid>
                     </Grid>

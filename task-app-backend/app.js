@@ -13,6 +13,7 @@ var taskRouter = require('./routes/task')
 var categoryRouter = require('./routes/category')
 var userRouter = require('./routes/user')
 var shareRouter = require('./routes/share')
+var trashRouter = require('./routes/trash')
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use('/task', taskRouter)
 app.use('/category', categoryRouter)
 app.use('/user', userRouter)
 app.use('/share', shareRouter)
+app.use('/trash', trashRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

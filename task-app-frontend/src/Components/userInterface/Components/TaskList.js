@@ -10,9 +10,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import SaveIcon from '@mui/icons-material/Save';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import InputLabel from '@mui/material/InputLabel';
@@ -206,8 +203,10 @@ export default function TaskList() {
             denyButtonText: `Don't delete`,
         }).then(async (result) => {
             if (result.isConfirmed) {
+                var taskid = { 'taskid': rowData._id, 'userid': userId, 'taskname': rowData.taskname, 'deadline': rowData.deadline, 'category': rowData.category, 'description': rowData.description, 'tags': rowData.tags }
                 var body = { '_id': rowData._id }
                 var response = await postData('task/delete-task', body)
+                var responseTrash = await postData('trash/create_trash_task', taskid)
                 fetchTasks()
                 Swal.fire('Task Deleted!', '', 'success')
             } else if (result.isDenied) {
@@ -461,22 +460,22 @@ export default function TaskList() {
                                 actions={[
                                     {
                                         icon: EditIcon,
-                                        tooltip: 'Edit Tast',
+                                        tooltip: 'Edit Task',
                                         onClick: (event, rowData) => handleOpen(rowData)
                                     },
                                     {
                                         icon: ShareIcon,
-                                        tooltip: 'Share Tast',
+                                        tooltip: 'Share Task',
                                         onClick: (event, rowData) => handleShareDialog(rowData)
                                     },
                                     {
                                         icon: DeleteIcon,
-                                        tooltip: 'Delete Tast',
+                                        tooltip: 'Delete Task',
                                         onClick: (event, rowData) => handleDeleteTask(rowData)
                                     },
                                     {
                                         icon: AddIcon,
-                                        tooltip: 'Add Tast',
+                                        tooltip: 'Add Task',
                                         isFreeAction: true,
                                         onClick: (event) => navigate('/dashboard')
                                     }
